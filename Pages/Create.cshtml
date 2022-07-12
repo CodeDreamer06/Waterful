@@ -1,0 +1,35 @@
+﻿@page
+@model Waterful.Pages.CreateModel
+@{
+	ViewData["Title"] = "Add a new record";
+}
+
+<h2>Add a new record</h2>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group mb-3">
+				<label asp-for="Water.Date" class="control-label"></label>
+				<input type="datetime-local" asp-for="Water.Date" class="form-control"/>
+				<span asp-validation-for="Water.Date" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-3">
+				<label asp-for="Water.Quantity" class="control-label"></label>
+				<input asp-for="Water.Quantity" class="form-control"/>
+				<span asp-validation-for="Water.Quantity" class="text-danger"/>
+			</div>
+			<div class="form-group mb-3">
+				<input type="submit" value="Create" class="btn btn-success"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
