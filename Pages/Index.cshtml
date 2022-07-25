@@ -1,9 +1,33 @@
 ﻿@page
-@model IndexModel
+@model Waterful.Pages.IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Waterful</h1>
-</div>
+<h1>Index</h1>
+
+<a asp-page="Create">Create New</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Model.Water[0].Date</th>
+            <th>@Model.Water[0].Quantity</th>
+            <th>@Model.Water[0].Type</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var log in Model.Water) {
+        <tr>
+            <td>@log.Date</td>
+            <td>@log.Quantity</td>
+            <td>@log.Type</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@log.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@log.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@log.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

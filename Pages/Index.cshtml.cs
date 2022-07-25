@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Waterful.Models;
 
-namespace Waterful.Pages
+namespace Waterful.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly Data.WaterContext _context;
+
+    public IndexModel(Data.WaterContext context) => _context = context;
+
+    [BindProperty]
+    public IList<Water> Water { get; set; } = default!;
+
+    public async Task OnGetAsync()
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
-
-        }
+        if (_context.Water is not null) 
+            Water = await _context.Water.ToListAsync();
     }
 }
