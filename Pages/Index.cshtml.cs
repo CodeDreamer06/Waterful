@@ -12,10 +12,13 @@ public class IndexModel : PageModel
     public IndexModel(Data.WaterContext context) => _context = context;
 
     [BindProperty]
-    public IEnumerable<Water> Logs { get; set; } = default!;
+    public List<Water> Logs { get; set; } = default!;
 
     [BindProperty]
     public string? Option { get; set; }
+
+    [BindProperty]
+    public string? TotalQuantity { get; set; }
 
     public async Task OnGetAsync(string? option)
     {
@@ -27,10 +30,12 @@ public class IndexModel : PageModel
 
             else
             {
-                var parsedOption = (WaterType) Enum.Parse(typeof(WaterType), option);
+                var parsedOption = (WaterType)Enum.Parse(typeof(WaterType), option);
                 var logs = await _context.Water.ToListAsync();
-                Logs = logs.Where(log => log.Type == parsedOption);
+                Logs = logs.Where(log => log.Type == parsedOption).ToList();
             }
+
+            TotalQuantity = Logs.GetTotalQuantity();
         }
     }
 }

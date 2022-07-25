@@ -1,48 +1,58 @@
 ﻿@page
 @model Waterful.Pages.IndexModel
 
+@using System.Globalization
 @using Waterful.Models;
 
 @{
     ViewData["Title"] = "Home";
     string AddDisabled(string title) => Model.Option == title ? "disabled" : "";
+    ViewData["DrankToday"] = Model.TotalQuantity;
 }
 
-<section class="logs-table">
-    <div class="d-flex align-items-center mt-5 table__header">
-        <div class="d-flex align-items-center">
-            <img src="/images/Logs Icon.png" alt="Logs icon" class="folder-icon">
-            <p class="table__title d-inline">Your current logs</p>
+<section class="banner">
+    <h1>Dashboard</h1>
+    <h2>Welcome aboard!</h2>
+</section>
+
+
+@if (Model.Logs.Count > 0)
+{
+    <section class="logs-table">
+        <div class="d-flex align-items-center mt-5 table__header">
+            <div class="d-flex align-items-center">
+                <img src="/images/Logs Icon.png" alt="Logs icon" class="folder-icon">
+                <p class="table__title d-inline">Your current logs</p>
+            </div>
+            <div class="dropdown">
+                <a class="btn logs-dropdown dropdown-toggle d-flex justify-content-between align-items-center" href="#" role="button" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    @Model.Option
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item @(AddDisabled("All"))" asp-page="Index">All</a></li>
+                    <li><a class="dropdown-item @(AddDisabled("Mini glass"))" asp-page="Index" asp-route-option="@WaterType.MiniGlass">Mini glass</a></li>
+                    <li><a class="dropdown-item @(AddDisabled("Glass"))" asp-page="Index" asp-route-option="@WaterType.Glass">Glass</a></li>
+                    <li><a class="dropdown-item @(AddDisabled("Bottle"))" asp-page="Index" asp-route-option="@WaterType.Bottle">Bottle</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="dropdown">
-            <a class="btn logs-dropdown dropdown-toggle d-flex justify-content-between align-items-center" href="#" role="button" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                @Model.Option
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item @(AddDisabled("All"))" asp-page="Index">All</a></li>
-                <li><a class="dropdown-item @(AddDisabled("Mini glass"))" asp-page="Index" asp-route-option="@WaterType.MiniGlass">Mini glass</a></li>
-                <li><a class="dropdown-item @(AddDisabled("Glass"))" asp-page="Index" asp-route-option="@WaterType.Glass">Glass</a></li>
-                <li><a class="dropdown-item @(AddDisabled("Bottle"))" asp-page="Index" asp-route-option="@WaterType.Bottle">Bottle</a></li>
-            </ul>
-        </div>
-    </div>
-    <table class="mt-3">
-        <thead>
-            <tr>
-                <th>Date and Time</th>
-                <th>Quantity</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="mt-3">
+            <thead>
+                <tr>
+                    <th>Date and Time</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
             @foreach (var log in Model.Logs)
             {
                 <tr>
                     <td>
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-                        <p>@log.Date</p>
+                        <p>@log.Date.ToString("f", CultureInfo.CreateSpecificCulture("en-US"))</p>
                     </td>
-                    <td>@log.Quantity</td>
+                    <td>@(log.GetTotalQuantityByRecord().ConvertToReadableUnits())</td>
                     <td><div class="type-badge">@(log.Type.ToString().AddSpacing())</div></td>
                     <td>
                         <a class="btn btn-primary btn--edit" asp-page="./Edit" asp-route-id="@log.Id">
@@ -56,6 +66,10 @@
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-</section>
+            </tbody>
+        </table>
+    </section>
+}
+else {
+    <h6 class="my-3 alert alert-warning" style="width: fit-content">No logs to display 😅. Click on <strong>'add'</strong> to log a new drink!</h6>
+}

@@ -4,3 +4,4 @@ window.addEventListener('load', () => {
     spinner.parentElement.removeChild(spinner);
     spinnerBackground.parentElement.removeChild(spinnerBackground);
 });
+$(() => $('[data-toggle="tooltip"]').tooltip());
