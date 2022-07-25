@@ -12,11 +12,11 @@ public class IndexModel : PageModel
     public IndexModel(Data.WaterContext context) => _context = context;
 
     [BindProperty]
-    public IList<Water> Water { get; set; } = default!;
+    public IList<Water> Logs { get; set; } = default!;
 
     public async Task OnGetAsync()
     {
         if (_context.Water is not null) 
-            Water = await _context.Water.ToListAsync();
+            Logs = await _context.Water.ToListAsync();
     }
 }

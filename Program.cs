@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Waterful.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +12,12 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<WaterContext>();
+    context.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

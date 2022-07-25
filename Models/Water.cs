@@ -4,8 +4,13 @@ namespace Waterful.Models;
 
 public enum WaterType
 {
+    [Display(Name = "Mini Glass")]
     MiniGlass,
+
+    [Display(Name = "Glass")]
     Glass,
+
+    [Display(Name = "Bottle")]
     Bottle
 }
 

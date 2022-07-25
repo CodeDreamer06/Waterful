@@ -3,13 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Waterful</title>
+    <title>@ViewData["Title"] - Waterful!</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Waterful.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <div class="container">
+<body onload="loadPage()">
+    <div class="top-gradient container-fluid"></div>
+    <div class="spinner-background"></div>
+    <div class="spinner"><div></div><div></div><div></div><div></div></div>
+
+    <div class="container-fluid main">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
