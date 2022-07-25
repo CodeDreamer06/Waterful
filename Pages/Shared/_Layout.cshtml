@@ -7,18 +7,42 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Waterful.styles.css" asp-append-version="true" />
 </head>
 <body onload="loadPage()">
     <div class="top-gradient container-fluid"></div>
     <div class="spinner-background"></div>
     <div class="spinner"><div></div><div></div><div></div><div></div></div>
 
+    @*Navigation*@
+    <header>
+        <nav class="navbar mt-2">
+            <a class="navbar-brand header mr-auto d-flex align-items-center gap-3" asp-page="Index">
+                <img src="images/water.png" alt="Logo" class="d-inline-block align-top">
+                Waterful!
+            </a>
+            <div class="nav">
+                <div class="current-stats">
+                    <p>750ml</p>
+                    <p>Drank today</p>
+                </div>
+                <a class="btn btn-primary btn--cta align-self-center" asp-page="./Create">
+                    <img src="images/plus icon.svg" alt="plus icon">
+                    Add
+                </a>
+            </div>
+          </nav>
+    </header>
+
     <div class="container-fluid main">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
+    <footer>
+        <img src="images/C-sharp icon.png" alt="C-sharp logo">
+        <p>Powered by C# Razor Pages</p>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

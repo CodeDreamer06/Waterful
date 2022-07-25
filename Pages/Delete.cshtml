@@ -12,29 +12,17 @@
     <h4>Water</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Water.Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Water.Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Water.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Water.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Water.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Water.Type)
-        </dd>
+        <dt class="col-sm-2">Date and Time</dt>
+        <dd class="col-sm-10">@Model.Water.Date</dd>
+        <dt class="col-sm-2">Quantity</dt>
+        <dd class="col-sm-10">@Model.Water.Quantity</dd>
+        <dt class="col-sm-2">Type</dt>
+        <dd class="col-sm-10">@Model.Water.Type</dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="Water.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="hidden" asp-for="Water.Id"/>
+        <input type="submit" value="Delete" class="btn btn-danger"/>
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>

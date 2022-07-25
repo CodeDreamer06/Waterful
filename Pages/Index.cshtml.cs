@@ -12,11 +12,25 @@ public class IndexModel : PageModel
     public IndexModel(Data.WaterContext context) => _context = context;
 
     [BindProperty]
-    public IList<Water> Logs { get; set; } = default!;
+    public IEnumerable<Water> Logs { get; set; } = default!;
 
-    public async Task OnGetAsync()
+    [BindProperty]
+    public string? Option { get; set; }
+
+    public async Task OnGetAsync(string? option)
     {
-        if (_context.Water is not null) 
-            Logs = await _context.Water.ToListAsync();
+        Option = option != null ? option.AddSpacing() : "All";
+        if (_context.Water is not null)
+        {
+            if (option is null)
+                Logs = await _context.Water.ToListAsync();
+
+            else
+            {
+                var parsedOption = (WaterType) Enum.Parse(typeof(WaterType), option);
+                var logs = await _context.Water.ToListAsync();
+                Logs = logs.Where(log => log.Type == parsedOption);
+            }
+        }
     }
 }

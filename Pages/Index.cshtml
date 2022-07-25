@@ -1,25 +1,28 @@
 ﻿@page
 @model Waterful.Pages.IndexModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+@using Waterful.Models;
 
-<a asp-page="Create">Create New</a>
+@{
+    ViewData["Title"] = "Home";
+    string AddDisabled(string title) => Model.Option == title ? "disabled" : "";
+}
 
 <section class="logs-table">
     <div class="d-flex align-items-center mt-5 table__header">
-        <img src="/images/Logs Icon.png" alt="Logs icon" class="folder-icon">
-        <p class="table__title d-inline">Your current logs</p>
+        <div class="d-flex align-items-center">
+            <img src="/images/Logs Icon.png" alt="Logs icon" class="folder-icon">
+            <p class="table__title d-inline">Your current logs</p>
+        </div>
         <div class="dropdown">
             <a class="btn logs-dropdown dropdown-toggle d-flex justify-content-between align-items-center" href="#" role="button" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                All
+                @Model.Option
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item disabled" href="#">All</a></li>
-                <li><a class="dropdown-item" href="#">Mini glass</a></li>
-                <li><a class="dropdown-item" href="#">Glass</a></li>
-                <li><a class="dropdown-item" href="#">Bottle</a></li>
+                <li><a class="dropdown-item @(AddDisabled("All"))" asp-page="Index">All</a></li>
+                <li><a class="dropdown-item @(AddDisabled("Mini glass"))" asp-page="Index" asp-route-option="@WaterType.MiniGlass">Mini glass</a></li>
+                <li><a class="dropdown-item @(AddDisabled("Glass"))" asp-page="Index" asp-route-option="@WaterType.Glass">Glass</a></li>
+                <li><a class="dropdown-item @(AddDisabled("Bottle"))" asp-page="Index" asp-route-option="@WaterType.Bottle">Bottle</a></li>
             </ul>
         </div>
     </div>
@@ -40,7 +43,7 @@
                         <p>@log.Date</p>
                     </td>
                     <td>@log.Quantity</td>
-                    <td><div class="type-badge">@log.Type</div></td>
+                    <td><div class="type-badge">@(log.Type.ToString().AddSpacing())</div></td>
                     <td>
                         <a class="btn btn-primary btn--edit" asp-page="./Edit" asp-route-id="@log.Id">
                             <img src="~/images/Edit.svg" alt="Edit icon">
