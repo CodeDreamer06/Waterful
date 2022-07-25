@@ -102,6 +102,11 @@ body {
   font-family: Poppins;
   font-weight: 600;
   margin: 0 6rem;
+  transition: 250ms all;
+}
+
+.header:hover {
+  color: grey;
 }
 
 .btn--cta {
