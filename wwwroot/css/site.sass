@@ -105,7 +105,7 @@ body
 .header:hover
     color: grey
 
-.btn--cta
+@mixin roundButton($background)
     display: flex
     flex-direction: row
     justify-content: center
@@ -113,11 +113,18 @@ body
     gap: 0.7rem
     padding: 0.8rem 4.5rem
     height: fit-content
-    background: $primary-color
+    background: $background
     box-shadow: 0px 4px 25px 10px rgba(57, 101, 255, 0.2)
     border-radius: 15px
     font-weight: bold
     text-transform: uppercase
+
+.btn--cta
+    @include roundButton($primary-color)
+
+.btn--back
+    @include roundButton($primary-color)
+    width: fit-content
 
 .current-stats
     display: flex

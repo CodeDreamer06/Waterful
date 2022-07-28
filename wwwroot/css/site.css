@@ -124,6 +124,22 @@ body {
   text-transform: uppercase;
 }
 
+.btn--back {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 4.5rem;
+  height: fit-content;
+  background: #3965FF;
+  box-shadow: 0px 4px 25px 10px rgba(57, 101, 255, 0.2);
+  border-radius: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
 .current-stats {
   display: flex;
   flex-direction: column;
