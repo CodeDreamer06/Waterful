@@ -274,6 +274,8 @@ td
     font-weight: bold
     text-align: center
     font-size: 1.5rem
+    position: relative
+    cursor: pointer
     height: 25rem
     width: 16rem
     margin: 2rem
@@ -291,17 +293,18 @@ td
     transform: scale(1.04)
 
 .drink-option__counter
-    position: relative
     margin: 0
     color: white
     padding: 0.5rem 1.2rem
-    right: -10.6rem
-    top: -2rem
+    position: absolute
+    top: -0.5rem
+    right: -0.5rem
+    cursor: pointer
     width: fit-content
     border-radius: 15px
     background: $primary-color
     transition: 250ms all
-    animation: 2s ease-out 0s 1 increaseOpacity
+    animation: 100ms ease-out 0s 1 increaseOpacity
 
 .btn--accept
     display: flex

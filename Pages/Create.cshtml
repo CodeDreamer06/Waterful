@@ -9,15 +9,17 @@
 <section class="create">
     <h1>Add a new drink</h1>
     <div class="d-flex">
-        <div class="drink-option drink-option__hover">
-            <div class="drink-option__counter">2</div>
-            <p>100ml</p>
+        <div id="drinkOption--mini-glass" class="drink-option drink-option__hover">
+            <div id="drinkOptionCounter--mini-glass" class="drink-option__counter user-select-none">0</div>
+            <p class="user-select-none">100ml</p>
         </div>
-        <div class="drink-option drink-option__hover">
-            <p>250ml</p>
+        <div id="drinkOption--glass" class="drink-option drink-option__hover">
+            <div id="drinkOptionCounter--glass" class="drink-option__counter user-select-none">0</div>
+            <p class="user-select-none">250ml</p>
         </div>
-        <div class="drink-option drink-option__hover">
-            <p>500ml</p>
+        <div id="drinkOption--bottle" class="drink-option drink-option__hover">
+            <div id="drinkOptionCounter--bottle" class="drink-option__counter user-select-none">0</div>
+            <p class="user-select-none">500ml</p>
         </div>
     </div>
     <a asp-page="Index" class="btn btn-primary btn--fit my-2">Done</a>
