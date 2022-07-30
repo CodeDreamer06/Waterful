@@ -20,6 +20,7 @@ namespace Waterful.Pages
           if (!ModelState.IsValid || _context.Water is null || Water is null)
                 return Page();
 
+            Water.Date = DateTime.Now;
             _context.Water.Add(Water);
             await _context.SaveChangesAsync();
 

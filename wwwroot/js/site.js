@@ -17,6 +17,7 @@ $(document).ready(() => {
         miniGlassQuantity++;
         document.getElementById("drinkOptionCounter--mini-glass").style.display = "inline-block";
         $("#drinkOptionCounter--mini-glass").text(miniGlassQuantity);
+        document.getElementById("miniGlassQuantity").value = miniGlassQuantity;
     });
 
     $("#drinkOption--glass").click(() => {

@@ -13,7 +13,7 @@
         <div class="d-flex flex-column justify-content-between my-5">
             <div>
                 <div class="type-badge mb-3">@(Model.Water.Type.ToString().AddSpacing())</div>
-                <p>On @Model.Water.Date</p>
+                <p>On @(Model.Water.Date.FormatLogDate())</p>
             </div>
             <form method="post">
                 <input type="hidden" asp-for="Water.Id"/>

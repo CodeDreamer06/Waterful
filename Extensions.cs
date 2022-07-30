@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using Waterful.Models;
 
 namespace Waterful;
@@ -21,9 +22,9 @@ public static class Extensions
             _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
         };
 
-    public static string GetTotalQuantity(this IEnumerable<Water> records)
+    public static string GetTodayQuantity(this IEnumerable<Water> records)
     {
-        double totalQuantity = records.Aggregate(0d, (total, log) => total + GetTotalQuantityByRecord(log));
+        double totalQuantity = records.Aggregate(0d, (total, log) => total + (log.Date.Date == DateTime.Now.Date ? GetTotalQuantityByRecord(log) : 0));
         return ConvertToReadableUnits(totalQuantity);
     }
 
@@ -39,4 +40,16 @@ public static class Extensions
         WaterType.Bottle => 450,
         _ => throw new InvalidOperationException()
     };
+
+    public static string FormatLogDate(this DateTime date)
+    {
+        var time = date.ToString("t", CultureInfo.CreateSpecificCulture("en-US"));
+        if (date.Date == DateTime.Now.Date)
+            return $"Today, {time}";
+
+        else if (date.Date == DateTime.Now.Date.AddDays(-1))
+            return $"Yesterday, {time}";
+
+        return date.ToString("f", CultureInfo.CreateSpecificCulture("en-US"));
+    }
 }

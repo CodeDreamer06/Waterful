@@ -18,7 +18,7 @@ public class IndexModel : PageModel
     public string? Option { get; set; }
 
     [BindProperty]
-    public string? TotalQuantity { get; set; }
+    public string? TodayQuantity { get; set; }
 
     public async Task OnGetAsync(string? option)
     {
@@ -35,7 +35,7 @@ public class IndexModel : PageModel
                 Logs = logs.Where(log => log.Type == parsedOption).ToList();
             }
 
-            TotalQuantity = Logs.GetTotalQuantity();
+            TodayQuantity = Logs.GetTodayQuantity();
         }
     }
 }
