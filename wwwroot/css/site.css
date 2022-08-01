@@ -42,7 +42,7 @@ body {
 /* Loading spinner */
 .spinner-background {
   position: fixed;
-  z-index: 9998;
+  z-index: 99999;
   height: 100vh;
   width: 100vw;
   background: rgba(0, 0, 0, 0.7);
@@ -330,14 +330,38 @@ td p {
   color: white;
   padding: 0.5rem 1.2rem;
   position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
   cursor: pointer;
   width: fit-content;
   border-radius: 15px;
   background: #3965FF;
   transition: 250ms all;
-  animation: 100ms ease-out 0s 1 increaseOpacity;
+  animation: 300ms ease-out 0s 1 increaseOpacity;
+  top: -0.5rem;
+  right: -0.5rem;
+}
+
+.drink-option__uncounter {
+  margin: 0;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  position: absolute;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 15px;
+  background: #FF143E;
+  transition: 250ms all;
+  animation: 300ms ease-out 0s 1 increaseOpacity;
+  padding: 1.5rem 1.2rem;
+  display: grid;
+  place-items: center;
+  top: -0.5rem;
+  left: -0.5rem;
+}
+
+.line {
+  height: min-content;
+  width: 1rem;
+  border-bottom: 0.4rem solid white;
 }
 
 .btn--accept {

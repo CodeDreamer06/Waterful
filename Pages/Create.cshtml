@@ -12,50 +12,34 @@
         <div class="d-flex">
             <div id="drinkOption--mini-glass" class="drink-option drink-option__hover">
                 <div id="drinkOptionCounter--mini-glass" class="drink-option__counter user-select-none">0</div>
-                @Html.HiddenFor(model => model.Water.Quantity , new { id = "miniGlassQuantity" })
+                <div id="drinkOptionUncounter--mini-glass" class="drink-option__uncounter user-select-none">
+                    <div class="line"></div>
+                </div>
+                @Html.HiddenFor(model => model.Quantities[0], new { id = "miniGlassQuantity" })
                 <p class="user-select-none">100ml</p>
             </div>
             <div id="drinkOption--glass" class="drink-option drink-option__hover">
                 <div id="drinkOptionCounter--glass" class="drink-option__counter user-select-none">0</div>
+                <div id="drinkOptionUncounter--glass" class="drink-option__uncounter user-select-none">
+                    <div class="line"></div>
+                </div>
+                @Html.HiddenFor(model => model.Quantities[1], new { id = "glassQuantity" })
                 <p class="user-select-none">250ml</p>
             </div>
             <div id="drinkOption--bottle" class="drink-option drink-option__hover">
                 <div id="drinkOptionCounter--bottle" class="drink-option__counter user-select-none">0</div>
+                <div id="drinkOptionUncounter--bottle" class="drink-option__uncounter user-select-none">
+                    <div class="line"></div>
+                </div>
+                @Html.HiddenFor(model => model.Quantities[2], new { id = "bottleQuantity" })
                 <p class="user-select-none">500ml</p>
             </div>
         </div>
-        @*<a asp-page="Index" class="btn btn-primary btn--fit my-2">Done</a>*@
         <div class="form-group">
             <input type="submit" value="Done" class="btn btn-primary btn--fit my-2" />
         </div>
     </form>
 </section>
-
-@*<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Water.Date" class="control-label"></label>
-                <input asp-for="Water.Date" class="form-control" />
-                <span asp-validation-for="Water.Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Water.Quantity" class="control-label"></label>
-                <input asp-for="Water.Quantity" class="form-control" />
-                <span asp-validation-for="Water.Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Water.Type" class="control-label"></label>
-                <select asp-for="Water.Type" class="form-control" asp-items="Html.GetEnumSelectList<Waterful.Models.WaterType>()"></select> 
-                <span asp-validation-for="Water.Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

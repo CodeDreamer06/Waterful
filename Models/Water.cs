@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Waterful.Models;
 
@@ -16,7 +17,7 @@ public enum WaterType
 
 public class Water
 {
-    [Key]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
@@ -27,4 +28,15 @@ public class Water
 
     [Required]
     public WaterType Type { get; set; }
+
+    public Water()
+    {
+    }
+
+    public Water(Water oldObject)
+    {
+        Date = oldObject.Date;
+        Quantity = oldObject.Quantity;
+        Type = oldObject.Type;
+    }
 }

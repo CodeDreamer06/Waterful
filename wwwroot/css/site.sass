@@ -43,7 +43,7 @@ body
 
 .spinner-background
     position: fixed
-    z-index: 9998
+    z-index: 99999
     height: 100vh
     width: 100vw
     background: rgba(0, 0, 0, 0.7)
@@ -292,19 +292,35 @@ td
     padding: 1.5rem
     transform: scale(1.04)
 
-.drink-option__counter
+@mixin counter($color)
     margin: 0
     color: white
     padding: 0.5rem 1.2rem
     position: absolute
-    top: -0.5rem
-    right: -0.5rem
     cursor: pointer
     width: fit-content
     border-radius: 15px
-    background: $primary-color
+    background: $color
     transition: 250ms all
-    animation: 100ms ease-out 0s 1 increaseOpacity
+    animation: 200ms ease-out 0s 1 increaseOpacity
+
+.drink-option__counter
+    @include counter($primary-color)
+    top: -0.5rem
+    right: -0.5rem
+
+.drink-option__uncounter
+    @include counter(#FF143E)
+    padding: 1.5rem 1.2rem
+    display: grid
+    place-items: center
+    top: -0.5rem
+    left: -0.5rem
+
+.line
+    height: min-content
+    width: 1rem
+    border-bottom: 0.4rem solid white
 
 .btn--accept
     display: flex

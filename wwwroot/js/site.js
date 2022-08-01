@@ -7,28 +7,56 @@ window.addEventListener('load', () => {
     $(() => $('[data-toggle="tooltip"]').tooltip());
 });
 
-let miniGlassQuantity = 0, glassQuantity = 0, bottleQuantity = 0;
+let quantities = [0, 0, 0];
+let allOptions = [
+    "drinkOption--mini-glass",
+    "drinkOption--glass",
+    "drinkOption--bottle"
+]
+let allCounters = [
+    "drinkOptionCounter--mini-glass",
+    "drinkOptionCounter--glass",
+    "drinkOptionCounter--bottle",
+];
+let allUnCounters = [
+    "drinkOptionUncounter--mini-glass",
+    "drinkOptionUncounter--glass",
+    "drinkOptionUncounter--bottle",
+];
+let quantityElements = [
+    "miniGlassQuantity",
+    "glassQuantity",
+    "bottleQuantity"
+];
+function hideElements(elements) {
+    for (let elementId of elements)
+        document.getElementById(elementId).style.display = "none";
+}
+
+function showElements(elements) {
+    for (let elementId of elements)
+        document.getElementById(elementId).style.display = "inline-block";
+}
 
 $(document).ready(() => {
-    document.getElementById("drinkOptionCounter--mini-glass").style.display = "none";
-    document.getElementById("drinkOptionCounter--glass").style.display = "none";
-    document.getElementById("drinkOptionCounter--bottle").style.display = "none";
-    $("#drinkOption--mini-glass").click(() => {
-        miniGlassQuantity++;
-        document.getElementById("drinkOptionCounter--mini-glass").style.display = "inline-block";
-        $("#drinkOptionCounter--mini-glass").text(miniGlassQuantity);
-        document.getElementById("miniGlassQuantity").value = miniGlassQuantity;
-    });
+    hideElements([...allCounters, ...allUnCounters]);
 
-    $("#drinkOption--glass").click(() => {
-        glassQuantity++;
-        document.getElementById("drinkOptionCounter--glass").style.display = "inline-block";
-        $("#drinkOptionCounter--glass").text(glassQuantity);
-    });
-
-    $("#drinkOption--bottle").click(() => {
-        bottleQuantity++;
-        document.getElementById("drinkOptionCounter--bottle").style.display = "inline-block";
-        $("#drinkOptionCounter--bottle").text(bottleQuantity);
-    });
+    for (let i = 0; i < 3; i++) {
+        $("#" + allOptions[i]).click(() => {
+            quantities[i]++;
+            console.log(quantities[i]);
+            if (quantities[i] != 0)
+                showElements([allCounters[i], allUnCounters[i]]);
+            else
+                hideElements([allCounters[i], allUnCounters[i]]);
+            $("#" + allCounters[i]).text(quantities[i]);
+            document.getElementById(quantityElements[i]).value = quantities[i];
+        });
+    
+        $("#" + allUnCounters[i]).click(() => {      
+            quantities[i] -= 2;
+            $("#" + allCounters[i]).text(quantities[i]);
+            document.getElementById(quantityElements[i]).value = quantities[i];
+        });
+    }
 });
