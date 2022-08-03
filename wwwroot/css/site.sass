@@ -34,8 +34,9 @@ body
     font-family: Inter, Verdana
     margin-right: 6rem !important
 
-.create h1, .delete h1
-    font-weight: bold
+.create h1, .delete h1, .edit h1
+    font-weight: 600
+    font-size: 2.5rem
     opacity: 1
     animation: 500ms ease-in 0s 1 increaseOpacity
 
@@ -291,6 +292,11 @@ td
     border: 0.5rem solid #3C69FF
     padding: 1.5rem
     transform: scale(1.04)
+
+.drink-option__selected
+    border: 0.5rem solid #3C69FF
+    padding: 1.5rem
+    transform: scale(1.08)
 
 @mixin counter($color)
     margin: 0

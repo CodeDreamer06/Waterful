@@ -8,5 +8,7 @@ public record DrinkOption
 
     public int DefaultQuantity { get; set; } = 0;
 
+    public bool IsSelected { get; set; } = default!;
+
     //public string ImageSource { get; set; } = default!;
 }
