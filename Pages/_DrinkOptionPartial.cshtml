@@ -2,12 +2,15 @@
     var option = ViewData["option"] as Models.DrinkOption;
 }
 
-<div id="@("drinkOption--" + option?.HiddenIdName)" class="drink-option drink-option__hover @(option!.IsSelected ? "drink-option__selected" : "")">
+<div id="@("drinkOption--" + option?.HiddenIdName)" class="drink-option @(option!.IsCounterEnabled ? "drink-option__hover" : "") @(option!.IsSelected ? "drink-option__selected" : "")">
     <div>
-        <div id="@("drinkOptionCounter--" + option?.HiddenIdName)" class="drink-option__counter user-select-none">@option?.DefaultQuantity</div>
-        <div id="@("drinkOptionUncounter--" + option?.HiddenIdName)" class="drink-option__uncounter user-select-none">
-            <div class="line"></div>
-        </div>
+        @if (option!.IsCounterEnabled)
+        {
+            <div id="@("drinkOptionCounter--" + option?.HiddenIdName)" class="drink-option__counter user-select-none">@option?.DefaultQuantity</div>
+            <div id="@("drinkOptionUncounter--" + option?.HiddenIdName)" class="drink-option__uncounter user-select-none">
+                <div class="line"></div>
+            </div>   
+        }
         <img src="@option?.ImageSource" alt="Image of the drink"/>
         <p class="user-select-none m-2">@option?.Title</p>
     </div>

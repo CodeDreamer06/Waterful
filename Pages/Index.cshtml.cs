@@ -35,6 +35,7 @@ public class IndexModel : PageModel
                 Logs = logs.Where(log => log.Type == parsedOption).ToList();
             }
 
+            Logs.Reverse();
             TodayQuantity = Logs.GetTodayQuantity();
         }
     }

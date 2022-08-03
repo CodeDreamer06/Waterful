@@ -63,6 +63,14 @@ public class DrinkOptions
         };
     }
 
+    public ViewDataDictionary GetOptionFromType(WaterType type) => type switch
+    {
+        WaterType.MiniGlass => MiniGlass,
+        WaterType.Glass => Glass,
+        WaterType.Bottle => Bottle,
+        _ => throw new ArgumentException(nameof(type))
+    };
+
     private static int SetQuantity(Water? baseLog, WaterType comparison) => 
         baseLog != null ? baseLog.Type == comparison ? baseLog.Quantity : 0 : 0;
 }

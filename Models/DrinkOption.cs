@@ -10,5 +10,7 @@ public record DrinkOption
 
     public bool IsSelected { get; set; } = default!;
 
+    public bool IsCounterEnabled { get; set; } = true;
+
     public string ImageSource { get; set; } = default!;
 }
