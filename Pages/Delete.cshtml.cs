@@ -41,6 +41,11 @@ public class DeleteModel : PageModel
             await _context.SaveChangesAsync();
         }
 
+        var quantitySuffix = water!.Quantity > 1 ? "logs" : "log";
+
+        Notification.Title = $"Successfully removed your {quantitySuffix}";
+        Notification.Message = $"Removed {water.Quantity} {quantitySuffix}";
+        Notification.Type = "success";
         return RedirectToPage("./Index");
     }
 }

@@ -23,12 +23,19 @@ namespace Waterful.Pages
             if (!ModelState.IsValid || _context.Water is null || Water is null)
                 return Page();
 
+            var totalQuantity = 0;
             foreach (var record in GetLogs())
             {
                 _context.Water.Add(record);
+                totalQuantity += record.Quantity;
                 await _context.SaveChangesAsync();
             }
 
+            var quantitySuffix = totalQuantity > 1 ? "logs" : "log";
+
+            Notification.Title = $"Successfully added your {quantitySuffix}!";
+            Notification.Message = $"Added {totalQuantity} {quantitySuffix}";
+            Notification.Type = "success";
             return RedirectToPage("./Index");
         }
 

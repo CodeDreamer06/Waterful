@@ -35,6 +35,14 @@ namespace Waterful.Pages
             if (!ModelState.IsValid) return Page();
             Water = await GetLog();
 
+            if (Water.Id is -1)
+            {
+                Notification.Title = "Failed to edit log";
+                Notification.Message = "You can only edit the count of an existing log type.";
+                Notification.Type = "error";
+                return RedirectToPage("./Index");
+            }
+
             _context.Attach(Water).State = EntityState.Modified;
 
             try
@@ -54,9 +62,16 @@ namespace Waterful.Pages
         private async Task<Water> GetLog()
         {
             var water = await _context.Water.FirstOrDefaultAsync(m => m.Id == Water.Id);
+            var waterTypes = Enum.GetValues(typeof(WaterType)).Cast<WaterType>().ToList();
 
-            foreach (var quantity in Quantities)
-                if (quantity != 0) water!.Quantity = quantity;
+            for (int i = 0; i < Quantities.Length; i++)
+            {
+                if (Quantities[i] != 0)
+                {
+                    if (waterTypes.IndexOf(water!.Type) != i) water!.Id = -1;
+                    else water!.Quantity = Quantities[i];
+                }
+            }
 
             return water!;
         }

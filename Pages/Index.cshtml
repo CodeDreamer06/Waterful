@@ -9,6 +9,22 @@
     ViewData["DrankToday"] = Model.TodayQuantity;
 }
 
+@if (Notification.IsNotEmpty())
+{
+    <script src="~/lib/vanilla-notify/vanilla-notify.js"></script>
+    <script>
+        vNotify.@(Notification.Type)({
+            text: '@Notification.Message',
+            title: '@Notification.Title',
+            fadeInDuration: 500,
+            fadeOutDuration: 500,
+            visibleDuration: 4000,
+            postHoverVisibleDuration: 2000
+        });
+    </script>
+    Notification.Clear();
+}
+
 <section class="banner">
     <h1>Dashboard</h1>
     <h2>Welcome aboard!</h2>
