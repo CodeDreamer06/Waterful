@@ -14,6 +14,9 @@ namespace Waterful.Pages
         [BindProperty]
         public Water Water { get; set; } = default!;
 
+        [BindProperty]
+        public int[] Quantities { get; set; } = new int[3];
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id is null || _context.Water is null)
@@ -23,12 +26,14 @@ namespace Waterful.Pages
             if (water is null) return NotFound();
 
             Water = water;
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid) return Page();
+            Water = await GetLog();
 
             _context.Attach(Water).State = EntityState.Modified;
 
@@ -46,9 +51,17 @@ namespace Waterful.Pages
             return RedirectToPage("./Index");
         }
 
-        private bool WaterExists(int id)
+        private async Task<Water> GetLog()
         {
-          return (_context.Water?.Any(e => e.Id == id)).GetValueOrDefault();
+            var water = await _context.Water.FirstOrDefaultAsync(m => m.Id == Water.Id);
+
+            foreach (var quantity in Quantities)
+                if (quantity != 0) water!.Quantity = quantity;
+
+            return water!;
         }
+
+        private bool WaterExists(int id) => 
+            (_context.Water?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

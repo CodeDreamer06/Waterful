@@ -1,11 +1,10 @@
 ﻿@page
-@using Waterful.Data
 @model Waterful.Pages.CreateModel
 
 @{
     ViewData["Title"] = "Create";
     ViewBag.ShowClose = true;
-    var options = new DrinkOptions(ViewData);
+    var options = new DrinkOptions(ViewData, null);
 }
 
 <section class="create">

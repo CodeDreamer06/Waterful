@@ -6,5 +6,7 @@ public record DrinkOption
 
     public string Title { get; set; } = default!;
 
+    public int DefaultQuantity { get; set; } = 0;
+
     //public string ImageSource { get; set; } = default!;
 }

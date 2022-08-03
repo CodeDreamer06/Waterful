@@ -38,8 +38,18 @@ function showElements(elements) {
         document.getElementById(elementId).style.display = "inline-block";
 }
 
+function showElementsGreaterThanOne() {
+    for (var i = 0; i < allCounters.length; i++)
+        if (document.getElementById(allCounters[i]).innerHTML > 1) {
+            quantities[i] = document.getElementById(allCounters[i]).innerHTML;
+            document.getElementById(allCounters[i]).style.display = "inline-block";
+            document.getElementById(allUnCounters[i]).style.display = "inline-block";
+        }
+}
+
 $(document).ready(() => {
     hideElements([...allCounters, ...allUnCounters]);
+    showElementsGreaterThanOne();
 
     for (let i = 0; i < 3; i++) {
         $("#" + allOptions[i]).click(() => {

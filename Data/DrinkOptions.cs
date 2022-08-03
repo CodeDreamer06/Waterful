@@ -13,7 +13,7 @@ public class DrinkOptions
 
     public ViewDataDictionary Bottle { get; set; }
 
-    public DrinkOptions(ViewDataDictionary viewData)
+    public DrinkOptions(ViewDataDictionary viewData, Water? baseLog)
     {
         ViewData = viewData;
 
@@ -24,7 +24,8 @@ public class DrinkOptions
                 new DrinkOption()
                 {
                     HiddenIdName = "mini-glass",
-                    Title = "100ml"
+                    Title = "100ml",
+                    DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.MiniGlass)
                 }
             }
         };
@@ -36,7 +37,8 @@ public class DrinkOptions
                 new DrinkOption()
                 {
                     HiddenIdName = "glass",
-                    Title = "250ml"
+                    Title = "250ml",
+                    DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.Glass)
                 }
             }
         };
@@ -48,9 +50,13 @@ public class DrinkOptions
                 new DrinkOption()
                 {
                     HiddenIdName = "bottle",
-                    Title = "450ml"
+                    Title = "450ml",
+                    DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.Bottle)
                 }
             }
         };
     }
+
+    private static int SetQuantity(Water? baseLog, WaterType comparison) => 
+        baseLog != null ? baseLog.Type == comparison ? baseLog.Quantity : 0 : 0;
 }

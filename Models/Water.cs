@@ -35,6 +35,7 @@ public class Water
 
     public Water(Water oldObject)
     {
+        Id = oldObject.Id;
         Date = oldObject.Date;
         Quantity = oldObject.Quantity;
         Type = oldObject.Type;
