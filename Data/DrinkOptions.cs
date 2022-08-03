@@ -26,7 +26,8 @@ public class DrinkOptions
                     HiddenIdName = "mini-glass",
                     Title = "100ml",
                     DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.MiniGlass),
-                    IsSelected = baseLog?.Type == WaterType.MiniGlass
+                    IsSelected = baseLog?.Type == WaterType.MiniGlass,
+                    ImageSource = "images/small.png"
                 }
             }
         };
@@ -40,7 +41,8 @@ public class DrinkOptions
                     HiddenIdName = "glass",
                     Title = "250ml",
                     DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.Glass),
-                    IsSelected = baseLog?.Type == WaterType.Glass
+                    IsSelected = baseLog?.Type == WaterType.Glass,
+                    ImageSource = "images/medium.png"
                 }
             }
         };
@@ -54,7 +56,8 @@ public class DrinkOptions
                     HiddenIdName = "bottle",
                     Title = "450ml",
                     DefaultQuantity = SetQuantity(baseLog, comparison: WaterType.Bottle),
-                    IsSelected = baseLog?.Type == WaterType.Bottle
+                    IsSelected = baseLog?.Type == WaterType.Bottle,
+                    ImageSource = "images/big.png"
                 }
             }
         };

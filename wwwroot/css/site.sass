@@ -267,7 +267,9 @@ td
 
 /* Create and Delete */
 .drink-option
-    display: inline-block
+    display: inline-flex
+    align-items: center
+    justify-content: center
     background: #252541
     border: 0.5rem solid transparent
     border-radius: 15px
@@ -297,6 +299,9 @@ td
     border: 0.5rem solid #3C69FF
     padding: 1.5rem
     transform: scale(1.08)
+
+.drink-option img
+    height: 12rem
 
 @mixin counter($color)
     margin: 0

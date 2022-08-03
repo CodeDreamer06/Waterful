@@ -10,5 +10,5 @@ public record DrinkOption
 
     public bool IsSelected { get; set; } = default!;
 
-    //public string ImageSource { get; set; } = default!;
+    public string ImageSource { get; set; } = default!;
 }
