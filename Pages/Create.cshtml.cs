@@ -23,7 +23,7 @@ namespace Waterful.Pages
             if (!ModelState.IsValid || _context.Water is null || Water is null)
                 return Page();
 
-            foreach (var record in SetRecords())
+            foreach (var record in GetLogs())
             {
                 _context.Water.Add(record);
                 await _context.SaveChangesAsync();
@@ -32,18 +32,21 @@ namespace Waterful.Pages
             return RedirectToPage("./Index");
         }
 
-        private IEnumerable<Water> SetRecords()
+        IEnumerable<Water> GetLogs()
         {
             var waterTypes = Enum.GetValues(typeof(WaterType)).Cast<WaterType>().ToList();
             Water.Date = DateTime.Now;
 
-            for (int i = 0; i < Quantities.Length; i++)
+            foreach (var quantity in Quantities)
             {
-                if(Quantities[i] != 0)
-                    yield return new Water(Water) 
-                    { 
-                        Quantity = Quantities[i], Type = waterTypes[i] 
+                if (quantity != 0)
+                    yield return new Water(Water)
+                    {
+                        Quantity = quantity,
+                        Type = waterTypes.First()
                     };
+
+                waterTypes.RemoveAt(0);
             }
         }
     }

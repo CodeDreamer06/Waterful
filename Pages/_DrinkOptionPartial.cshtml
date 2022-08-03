@@ -1,0 +1,11 @@
+﻿@{
+    var option = ViewData["option"] as Models.DrinkOption;
+}
+
+<div id="@("drinkOption--" + option.HiddenIdName)" class="drink-option drink-option__hover">
+    <div id="@("drinkOptionCounter--" + option.HiddenIdName)" class="drink-option__counter user-select-none">0</div>
+    <div id="@("drinkOptionUncounter--" + option.HiddenIdName)" class="drink-option__uncounter user-select-none">
+        <div class="line"></div>
+    </div>
+    <p class="user-select-none">@option.Title</p>
+</div>

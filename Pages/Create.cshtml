@@ -1,39 +1,23 @@
 ﻿@page
+@using Waterful.Data
 @model Waterful.Pages.CreateModel
 
 @{
     ViewData["Title"] = "Create";
     ViewBag.ShowClose = true;
+    var options = new DrinkOptions(ViewData);
 }
 
 <section class="create">
     <form method="post">
         <h1>Add a new drink</h1>
         <div class="d-flex">
-            <div id="drinkOption--mini-glass" class="drink-option drink-option__hover">
-                <div id="drinkOptionCounter--mini-glass" class="drink-option__counter user-select-none">0</div>
-                <div id="drinkOptionUncounter--mini-glass" class="drink-option__uncounter user-select-none">
-                    <div class="line"></div>
-                </div>
-                @Html.HiddenFor(model => model.Quantities[0], new { id = "miniGlassQuantity" })
-                <p class="user-select-none">100ml</p>
-            </div>
-            <div id="drinkOption--glass" class="drink-option drink-option__hover">
-                <div id="drinkOptionCounter--glass" class="drink-option__counter user-select-none">0</div>
-                <div id="drinkOptionUncounter--glass" class="drink-option__uncounter user-select-none">
-                    <div class="line"></div>
-                </div>
-                @Html.HiddenFor(model => model.Quantities[1], new { id = "glassQuantity" })
-                <p class="user-select-none">250ml</p>
-            </div>
-            <div id="drinkOption--bottle" class="drink-option drink-option__hover">
-                <div id="drinkOptionCounter--bottle" class="drink-option__counter user-select-none">0</div>
-                <div id="drinkOptionUncounter--bottle" class="drink-option__uncounter user-select-none">
-                    <div class="line"></div>
-                </div>
-                @Html.HiddenFor(model => model.Quantities[2], new { id = "bottleQuantity" })
-                <p class="user-select-none">500ml</p>
-            </div>
+            @Html.HiddenFor(model => model.Quantities[0], new { id = "miniGlassQuantity" })
+            @Html.HiddenFor(model => model.Quantities[1], new { id = "glassQuantity" })
+            @Html.HiddenFor(model => model.Quantities[2], new { id = "bottleQuantity" })
+            <partial name="_DrinkOptionPartial" view-data="options.MiniGlass" />
+            <partial name="_DrinkOptionPartial" view-data="options.Glass" />
+            <partial name="_DrinkOptionPartial" view-data="options.Bottle" />
         </div>
         <div class="form-group">
             <input type="submit" value="Done" class="btn btn-primary btn--fit my-2" />
