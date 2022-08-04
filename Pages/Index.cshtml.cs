@@ -12,6 +12,9 @@ public class IndexModel : PageModel
     public IndexModel(Data.WaterContext context) => _context = context;
 
     [BindProperty]
+    public bool TestChecked { get; set; } = false;
+
+    [BindProperty]
     public List<Water> Logs { get; set; } = default!;
 
     [BindProperty]
@@ -19,6 +22,9 @@ public class IndexModel : PageModel
 
     [BindProperty]
     public string? TodayQuantity { get; set; }
+
+    [BindProperty]
+    public Dictionary<string, bool> IsChecked { get; set; } = default!;
 
     public async Task OnGetAsync(string? option)
     {
@@ -38,5 +44,20 @@ public class IndexModel : PageModel
             Logs.Reverse();
             TodayQuantity = Logs.GetTodayQuantity();
         }
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        foreach (var item in IsChecked)
+            if(item.Value) 
+                _context.Water.Remove(new Water() { Id = int.Parse(item.Key) });
+
+        await _context.SaveChangesAsync();
+
+        Logs = await _context.Water.ToListAsync();
+        Logs.Reverse();
+        TodayQuantity = Logs.GetTodayQuantity();
+
+        return Page();
     }
 }

@@ -48,8 +48,12 @@ function showElementsGreaterThanOne() {
 }
 
 $(document).ready(() => {
-    hideElements([...allCounters, ...allUnCounters]);
-    showElementsGreaterThanOne();
+    try {
+        hideElements([...allCounters, ...allUnCounters]);
+        showElementsGreaterThanOne();
+    }
+
+    catch {}
 
     for (let i = 0; i < 3; i++) {
         $("#" + allOptions[i]).click(() => {
@@ -69,4 +73,10 @@ $(document).ready(() => {
             document.getElementById(quantityElements[i]).value = quantities[i];
         });
     }
+
+    document.getElementById("deleteSelected").style.display = "none";
+    $('.form-check-input').change(() => {
+        if ($('.form-check-input:checked').length > 0)
+            document.getElementById("deleteSelected").style.display = "inline-block";
+    });
 });

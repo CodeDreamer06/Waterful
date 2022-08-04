@@ -306,6 +306,13 @@ td p {
   align-items: center;
 }
 
+.btn--delete__multiple {
+  margin-left: 2rem;
+  padding: 0.6rem 2rem;
+  border-radius: 10px;
+  animation: 500ms ease-in 0s 1 increaseOpacity;
+}
+
 /* Create and Delete */
 .drink-option {
   display: inline-flex;
