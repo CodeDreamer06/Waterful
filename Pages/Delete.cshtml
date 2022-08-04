@@ -4,9 +4,11 @@
 @{
     ViewData["Title"] = "Delete";
     ViewBag.ShowClose = true;
+
     var options = new DrinkOptions(ViewData, null);
     var option = options.GetOptionFromType(Model.Water.Type);
     var optionViewData = option["option"] as Models.DrinkOption;
+
     optionViewData!.IsCounterEnabled = false;
 }
 

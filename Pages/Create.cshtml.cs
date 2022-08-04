@@ -31,12 +31,17 @@ namespace Waterful.Pages
                 await _context.SaveChangesAsync();
             }
 
+            SetNotification(totalQuantity);
+            return RedirectToPage("./Index");
+        }
+
+        private static void SetNotification(int totalQuantity)
+        {
             var quantitySuffix = totalQuantity > 1 ? "logs" : "log";
 
             Notification.Title = $"Successfully added your {quantitySuffix}!";
             Notification.Message = $"Added {totalQuantity} {quantitySuffix}";
             Notification.Type = "success";
-            return RedirectToPage("./Index");
         }
 
         IEnumerable<Water> GetLogs()

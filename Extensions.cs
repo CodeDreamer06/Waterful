@@ -47,7 +47,7 @@ public static class Extensions
         if (date.Date == DateTime.Now.Date)
             return $"Today, {time}";
 
-        else if (date.Date == DateTime.Now.Date.AddDays(-1))
+        if (date.Date == DateTime.Now.Date.AddDays(-1))
             return $"Yesterday, {time}";
 
         return date.ToString("f", CultureInfo.CreateSpecificCulture("en-US"));

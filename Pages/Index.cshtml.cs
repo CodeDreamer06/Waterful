@@ -12,9 +12,6 @@ public class IndexModel : PageModel
     public IndexModel(Data.WaterContext context) => _context = context;
 
     [BindProperty]
-    public bool TestChecked { get; set; } = false;
-
-    [BindProperty]
     public List<Water> Logs { get; set; } = default!;
 
     [BindProperty]
@@ -41,23 +38,34 @@ public class IndexModel : PageModel
                 Logs = logs.Where(log => log.Type == parsedOption).ToList();
             }
 
-            Logs.Reverse();
-            TodayQuantity = Logs.GetTodayQuantity();
+            LoadTable();
         }
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        foreach (var item in IsChecked)
-            if(item.Value) 
-                _context.Water.Remove(new Water() { Id = int.Parse(item.Key) });
+        DeleteSelectedLogs();
 
-        await _context.SaveChangesAsync();
+        Helpers.TryAsyncAndIgnore(async () => await _context.SaveChangesAsync());
 
         Logs = await _context.Water.ToListAsync();
-        Logs.Reverse();
-        TodayQuantity = Logs.GetTodayQuantity();
+        LoadTable();
 
         return Page();
+    }
+
+    private void DeleteSelectedLogs()
+    {
+        foreach (var checkbox in IsChecked)
+        {
+            if (checkbox.Value)
+                _context.Water.Remove(new Water() { Id = int.Parse(checkbox.Key) });
+        }
+    }
+
+    private void LoadTable()
+    {
+        Logs.Reverse();
+        TodayQuantity = Logs.GetTodayQuantity();
     }
 }
