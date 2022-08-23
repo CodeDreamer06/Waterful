@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Waterful.Models;
+using Waterful.Data;
 
 namespace Waterful.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly Data.WaterContext _context;
+    private readonly DbService _db;
 
-    public IndexModel(Data.WaterContext context) => _context = context;
+    public IndexModel(WaterContext context) => _db = new(context);
 
     [BindProperty]
     public List<Water> Logs { get; set; } = default!;
@@ -26,46 +26,21 @@ public class IndexModel : PageModel
     public async Task OnGetAsync(string? option)
     {
         Option = option != null ? option.AddSpacing() : "All";
-        if (_context.Water is not null)
-        {
-            if (option is null)
-                Logs = await _context.Water.ToListAsync();
+        Logs = await _db.GetLogsByOption(Option);
 
-            else
-            {
-                var parsedOption = (WaterType)Enum.Parse(typeof(WaterType), option);
-                var logs = await _context.Water.ToListAsync();
-                Logs = logs.Where(log => log.Type == parsedOption).ToList();
-            }
-
-            LoadTable();
-        }
+        Logs.Reverse();
+        TodayQuantity = Logs.GetTodayQuantity();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        DeleteSelectedLogs();
+        _db.DeleteSelectedLogs(IsChecked);
+        _db.TryToSaveChanges();
 
-        Helpers.TryAsyncAndIgnore(async () => await _context.SaveChangesAsync());
-
-        Logs = await _context.Water.ToListAsync();
-        LoadTable();
-
-        return Page();
-    }
-
-    private void DeleteSelectedLogs()
-    {
-        foreach (var checkbox in IsChecked)
-        {
-            if (checkbox.Value)
-                _context.Water.Remove(new Water() { Id = int.Parse(checkbox.Key) });
-        }
-    }
-
-    private void LoadTable()
-    {
+        Logs = await _db.GetLogs();
         Logs.Reverse();
         TodayQuantity = Logs.GetTodayQuantity();
+
+        return Page();
     }
 }

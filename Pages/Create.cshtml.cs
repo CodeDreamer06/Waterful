@@ -3,55 +3,48 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Waterful.Data;
 using Waterful.Models;
 
-namespace Waterful.Pages
+namespace Waterful.Pages;
+
+public class CreateModel : PageModel
 {
-    public class CreateModel : PageModel
+    private readonly DbService _db;
+
+    public CreateModel(WaterContext context) => _db = new(context);
+
+    public IActionResult OnGet() => Page();
+
+    [BindProperty]
+    public Water Water { get; set; } = default!;
+
+    [BindProperty]
+    public int[] Quantities { get; set; } = new int[3];
+
+    public async Task<IActionResult> OnPostAsync()
     {
-        private readonly WaterContext _context;
+        if (!ModelState.IsValid || Water is null)
+            return Page();
 
-        public CreateModel(WaterContext context) => _context = context;
+        var totalQuantity = await _db.AddLogs(GetLogs);
 
-        public IActionResult OnGet() => Page();
+        NotificationBuilder.AddedSuccessfully(totalQuantity);
+        return RedirectToPage("./Index");
+    }
 
-        [BindProperty]
-        public Water Water { get; set; } = default!;
+    IEnumerable<Water> GetLogs()
+    {
+        var waterTypes = Enum.GetValues(typeof(WaterType)).Cast<WaterType>().ToList();
+        Water.Date = DateTime.Now;
 
-        [BindProperty]
-        public int[] Quantities { get; set; } = new int[3];
-
-        public async Task<IActionResult> OnPostAsync()
+        foreach (var quantity in Quantities)
         {
-            if (!ModelState.IsValid || _context.Water is null || Water is null)
-                return Page();
+            if (quantity != 0)
+                yield return new Water(Water)
+                {
+                    Quantity = quantity,
+                    Type = waterTypes.First()
+                };
 
-            var totalQuantity = 0;
-            foreach (var record in GetLogs())
-            {
-                _context.Water.Add(record);
-                totalQuantity += record.Quantity;
-                await _context.SaveChangesAsync();
-            }
-
-            NotificationBuilder.AddedSuccessfully(totalQuantity);
-            return RedirectToPage("./Index");
-        }
-
-        IEnumerable<Water> GetLogs()
-        {
-            var waterTypes = Enum.GetValues(typeof(WaterType)).Cast<WaterType>().ToList();
-            Water.Date = DateTime.Now;
-
-            foreach (var quantity in Quantities)
-            {
-                if (quantity != 0)
-                    yield return new Water(Water)
-                    {
-                        Quantity = quantity,
-                        Type = waterTypes.First()
-                    };
-
-                waterTypes.RemoveAt(0);
-            }
+            waterTypes.RemoveAt(0);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Waterful.Data;
 using Waterful.Models;
 
@@ -8,20 +7,18 @@ namespace Waterful.Pages;
 
 public class DeleteModel : PageModel
 {
-    private readonly WaterContext _context;
+    private readonly DbService _db;
 
-    public DeleteModel(WaterContext context) => _context = context;
+    public DeleteModel(WaterContext context) => _db = new(context);
 
     [BindProperty]
     public Water Water { get; set; } = default!;
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id is null || _context.Water is null) 
-            return NotFound();
+        if (id is null) return NotFound();
 
-        var water = await _context.Water.FirstOrDefaultAsync(m => m.Id == id);
-
+        var water = await _db.GetLogById(id.Value);
         if (water is null) return NotFound();
         
         Water = water;
@@ -30,16 +27,14 @@ public class DeleteModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(int? id)
     {
-        if (id is null || _context.Water is null)
-            return NotFound();
+        if (id is null) return NotFound();
 
-        var water = await _context.Water.FindAsync(id);
+        var water = await _db.GetLogById(id.Value);
 
         if (water is not null)
         {
             Water = water;
-            _context.Water.Remove(Water);
-            await _context.SaveChangesAsync();
+            await _db.DeleteLog(Water);
 
             NotificationBuilder.RemovedSuccessfully(water.Quantity);
         }
