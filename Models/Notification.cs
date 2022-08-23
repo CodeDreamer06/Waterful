@@ -15,4 +15,11 @@ public static class Notification
         Title = string.Empty;
         Message = string.Empty;
     }
+
+    public static void SetNotification(string Title, string Message, string Type)
+    {
+        Notification.Title = Title;
+        Notification.Message = Message;
+        Notification.Type = Type;
+    }
 }

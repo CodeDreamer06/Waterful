@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Waterful.Models;
+using Waterful.Data;
 
 namespace Waterful.Pages
 {
     public class EditModel : PageModel
     {
-        private readonly Data.WaterContext _context;
+        private readonly WaterContext _context;
 
-        public EditModel(Data.WaterContext context) => _context = context;
+        public EditModel(WaterContext context) => _context = context;
 
         [BindProperty]
         public Water Water { get; set; } = default!;
@@ -37,14 +38,14 @@ namespace Waterful.Pages
 
             if (Water.Id is -1)
             {
-                SetErrorNotification();
+                NotificationBuilder.UpdateFailed();
                 return RedirectToPage("./Index");
             }
 
             var logExists = await SaveChanges();
             if (!logExists) return NotFound();
 
-            SetSuccessNotification(Water);
+            NotificationBuilder.UpdatedSuccessfully(Water);
             return RedirectToPage("./Index");
         }
 
@@ -63,22 +64,6 @@ namespace Waterful.Pages
                 if (!WaterExists(Water.Id)) return false;
                 throw;
             }
-        }
-
-        private static void SetErrorNotification()
-        {
-            Notification.Title = "Failed to edit log";
-            Notification.Message = "You can only edit the count of an existing log type.";
-            Notification.Type = "error";
-        }
-
-        private static void SetSuccessNotification(Water log)
-        {
-            var quantity = log.GetTotalQuantityByRecord().ConvertToReadableUnits();
-
-            Notification.Title = "Successfully changed the quantity";
-            Notification.Message = $"Changed the quantity of your {log.Type} to {quantity}";
-            Notification.Type = "success";
         }
 
         private async Task<Water> GetLog()

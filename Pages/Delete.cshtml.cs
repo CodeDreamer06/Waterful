@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Waterful.Data;
 using Waterful.Models;
 
 namespace Waterful.Pages;
 
 public class DeleteModel : PageModel
 {
-    private readonly Data.WaterContext _context;
+    private readonly WaterContext _context;
 
-    public DeleteModel(Data.WaterContext context) => _context = context;
+    public DeleteModel(WaterContext context) => _context = context;
 
     [BindProperty]
     public Water Water { get; set; } = default!;
@@ -40,18 +41,9 @@ public class DeleteModel : PageModel
             _context.Water.Remove(Water);
             await _context.SaveChangesAsync();
 
-            SetNotification(water.Quantity);
+            NotificationBuilder.RemovedSuccessfully(water.Quantity);
         }
 
         return RedirectToPage("./Index");
-    }
-
-    private static void SetNotification(int quantity)
-    {
-        var quantitySuffix = quantity > 1 ? "logs" : "log";
-
-        Notification.Title = $"Successfully removed your {quantitySuffix}";
-        Notification.Message = $"Removed {quantity} {quantitySuffix}";
-        Notification.Type = "success";
     }
 }

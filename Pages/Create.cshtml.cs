@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Waterful.Data;
 using Waterful.Models;
 
 namespace Waterful.Pages
 {
     public class CreateModel : PageModel
     {
-        private readonly Data.WaterContext _context;
+        private readonly WaterContext _context;
 
-        public CreateModel(Data.WaterContext context) => _context = context;
+        public CreateModel(WaterContext context) => _context = context;
 
         public IActionResult OnGet() => Page();
 
@@ -31,17 +32,8 @@ namespace Waterful.Pages
                 await _context.SaveChangesAsync();
             }
 
-            SetNotification(totalQuantity);
+            NotificationBuilder.AddedSuccessfully(totalQuantity);
             return RedirectToPage("./Index");
-        }
-
-        private static void SetNotification(int totalQuantity)
-        {
-            var quantitySuffix = totalQuantity > 1 ? "logs" : "log";
-
-            Notification.Title = $"Successfully added your {quantitySuffix}!";
-            Notification.Message = $"Added {totalQuantity} {quantitySuffix}";
-            Notification.Type = "success";
         }
 
         IEnumerable<Water> GetLogs()
