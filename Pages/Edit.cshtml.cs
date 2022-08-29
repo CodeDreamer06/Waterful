@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Waterful.Models;
 using Waterful.Data;
 
@@ -16,7 +15,7 @@ public class EditModel : PageModel
     public Water Water { get; set; } = default!;
 
     [BindProperty]
-    public int[] Quantities { get; set; } = new int[3];
+    public int Quantity { get; set; } = 0;
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -25,6 +24,7 @@ public class EditModel : PageModel
         var water = await _db.GetLogById(id.Value);
         if (water is null) return NotFound();
         Water = water;
+        Quantity = water.Quantity;
 
         return Page();
     }
@@ -50,16 +50,7 @@ public class EditModel : PageModel
     private async Task<Water> GetLog()
     {
         var water = await _db.GetLogById(Water.Id);
-        var waterTypes = Enum.GetValues(typeof(WaterType)).Cast<WaterType>().ToList();
-
-        for (int i = 0; i < Quantities.Length; i++)
-        {
-            if (Quantities[i] != 0)
-            {
-                if (waterTypes.IndexOf(water!.Type) != i) water!.Id = -1;
-                else water!.Quantity = Quantities[i];
-            }
-        }
+        water.Quantity = Quantity;
 
         return water!;
     }

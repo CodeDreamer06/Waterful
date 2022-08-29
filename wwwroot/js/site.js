@@ -28,6 +28,7 @@ let quantityElements = [
     "glassQuantity",
     "bottleQuantity"
 ];
+
 function hideElements(elements) {
     for (let elementId of elements)
         document.getElementById(elementId).style.display = "none";
@@ -47,13 +48,16 @@ function showElementsGreaterThanOne() {
         }
 }
 
+function tryAndIgnore(callback) {
+    try { callback(); }
+    catch {}
+}
+
 $(document).ready(() => {
-    try {
+    tryAndIgnore(() => {
         hideElements([...allCounters, ...allUnCounters]);
         showElementsGreaterThanOne();
-    }
-
-    catch {}
+    });
 
     for (let i = 0; i < 3; i++) {
         $("#" + allOptions[i]).click(() => {
@@ -66,17 +70,35 @@ $(document).ready(() => {
             $("#" + allCounters[i]).text(quantities[i]);
             document.getElementById(quantityElements[i]).value = quantities[i];
         });
-    
-        $("#" + allUnCounters[i]).click(() => {      
+
+        $("#" + allUnCounters[i]).click(() => {
             quantities[i] -= 2;
             $("#" + allCounters[i]).text(quantities[i]);
             document.getElementById(quantityElements[i]).value = quantities[i];
         });
     }
 
-    document.getElementById("deleteSelected").style.display = "none";
-    $('.form-check-input').change(() => {
-        if ($('.form-check-input:checked').length > 0)
-            document.getElementById("deleteSelected").style.display = "inline-block";
+    tryAndIgnore(() => {
+        document.getElementById("deleteSelected").style.display = "none";
+        $('.form-check-input').change(() => {
+            if ($('.form-check-input:checked').length > 0)
+                document.getElementById("deleteSelected").style.display = "inline-block";
+        });
+    });
+
+    tryAndIgnore(() => {
+        $("#editCounter").click(() => {
+            var newCount = parseInt($("#editCounterValueDisplay").text()) + 1;
+            $("#editCounterValueDisplay").text(newCount);
+            $("#editCounterValue").val(newCount);
+        });
+
+        $("#editUnCounter").click(() => {
+            var counterValue = parseInt($("#editCounterValueDisplay").text());
+            if (counterValue > 1) {
+                $("#editCounterValueDisplay").text(counterValue - 1);
+                $("#editCounterValue").val(counterValue - 1);
+            }
+        });
     });
 });

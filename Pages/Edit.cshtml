@@ -5,21 +5,36 @@
     ViewData["Title"] = "Edit";
     ViewBag.ShowClose = true;
     var options = new DrinkOptions(ViewData, Model.Water);
+    var option = options.GetOptionFromType(Model.Water.Type);
+    var optionViewData = option["option"] as Models.DrinkOption;
+
+    optionViewData!.IsCounterEnabled = false;
+    var quantity = optionViewData.DefaultQuantity;
 }
 
 <section class="edit">
-    <form method="post">
-        <h1>Edit your drink</h1>
-        <div class="d-flex">
-            @Html.HiddenFor(model => model.Quantities[0], new { id = "miniGlassQuantity" })
-            @Html.HiddenFor(model => model.Quantities[1], new { id = "glassQuantity" })
-            @Html.HiddenFor(model => model.Quantities[2], new { id = "bottleQuantity" })
-            <partial name="_DrinkOptionPartial" view-data="options.MiniGlass" />
-            <partial name="_DrinkOptionPartial" view-data="options.Glass" />
-            <partial name="_DrinkOptionPartial" view-data="options.Bottle" />
+    <h1>Edit your drink</h1>
+    <div class="d-flex">
+        <partial name="_DrinkOptionPartial" view-data="@option" />
+        <div class="d-flex flex-column justify-content-between my-4 mx-4">
+            <div>
+                <div class="type-badge mb-3">@(Model.Water.Type.ToString().AddSpacing())</div>
+                <p>On @(Model.Water.Date.FormatLogDate())</p>
+            </div>
+            <form method="post">
+                <input type="hidden" asp-for="Water.Id"/>
+                <div class="analog-counter">
+                    @Html.HiddenFor(model => model.Quantity, new { id = "editCounterValue" })
+                    <div id="editCounter" class="drink-option__counter user-select-none">
+                        <img src="~/images/Chevron Up.svg" alt="chevron"/>
+                    </div>
+                    <p id="editCounterValueDisplay" class="text-center">@quantity</p>
+                    <div id="editUnCounter" class="drink-option__counter user-select-none">
+                        <img src="~/images/Chevron Up.svg" alt="chevron" class="rotate-down"/>
+                    </div>
+                </div>
+                <input type="submit" value="Done" class="btn btn-primary btn--fit my-2" />
+            </form>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Done" class="btn btn-primary btn--fit my-2" />
-        </div>
-    </form>
+    </div>
 </section>
